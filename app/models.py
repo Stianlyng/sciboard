@@ -24,6 +24,7 @@ class User(UserMixin, db.Model):
     first_name = db.Column(db.String(40),nullable=False)
     last_name = db.Column(db.String(40),nullable=False)
     last_seen = db.Column(db.DateTime, default=datetime.utcnow)
+    vertified = db.Column(db.Boolean, unique=False, default=False)
 
 
     def __repr__(self):

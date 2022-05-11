@@ -5,12 +5,13 @@ from app import db
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm,ResetPasswordRequestForm,ResetPasswordForm
 from app.models import User
-from app.auth.email import send_password_reset_email
+from app.auth.email import send_password_reset_email,send_vertification_link_email
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.frontpage'))
+
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -39,11 +40,38 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.registerSuccess', user_id=user.id))
     return render_template('auth/register.html', title='Register',
                            form=form)
 
+@bp.route('/registration-successful', methods=['GET', 'POST'])
+def registerSuccess():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.frontpage'))
+    # Get the userid returned by the redirect after registration success in auth.register
+    user_id_from_ref = request.args.get('user_id')
+
+    user = User.query.get(user_id_from_ref)
+    # Send mail
+    send_vertification_link_email(user)
+    return render_template('auth/vertification-notice.html',firstname=user.first_name)
+
+
+@bp.route('/activate-account/<token>', methods=['GET', 'POST'])
+def activateAccount(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('main.frontpage'))
+    #user = User.verify_reset_password_token(token)
+
+    hardkodetToken = "yoloswag"
+
+    if token == hardkodetToken:
+        user = User.query.get(12)
+        user.vertified = True
+        db.session.commit()
+        return render_template('auth/vertification-success.html')
+    else:
+        return redirect(url_for('api.not_found_error'))
 
 @bp.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
