@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head class="h-full bg-gray-100">
+    {% block head %}
+
+        {% include 'base/head-elements.html' %}
+
+        <title>{% block title %}{% endblock %} - SciBoard</title>
+
+        {{ moment.include_moment() }}
+    {% endblock %}
+</head>
+<body class="h-full">
+
+<div x-data="{ mobileMenuOpen: false }" class="min-h-screen bg-gray-100">
+    {% include 'components/navigation/navbar.html' %}
+    {% include 'components/sidebar/offcanvas-mobile-menu.html' %}
+
+    <div class="py-6">
+        <div class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8">
+            <div class="hidden lg:block lg:col-span-3 xl:col-span-2">
+
+                <nav aria-label="Sidebar" class="sticky top-4 divide-y divide-gray-300">
+
+                    {% include 'components/sidebar/main-choices-section.html' %}
+
+                    {% include 'components/sidebar/expandable-catalog-section.html' %}
+
+
+                </nav>
+
+            </div>
+            <main class="lg:col-span-9 xl:col-span-6">
+
+                {% block content %}
+
+                {% endblock %}
+
+
+            </main>
+
+            <aside class="hidden xl:block xl:col-span-4">
+                <div class="sticky top-6 space-y-4">
+                    {% include 'components/cards/top-users.html' %}
+                    {% include 'components/cards/trending topics.html' %}
+
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% block footer %}
+    <div id="modal-container"></div>
+
+{% endblock %}
+
+</body>
+</html>

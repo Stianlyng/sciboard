@@ -1,0 +1,83 @@
+{% extends "base/full-width.html" %}
+{% block title %}Profile{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important {
+            color: #336699;
+        }
+    </style>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'components/sidebar/main-choices-section.html' %}
+    {% include 'components/sidebar/expandable-catalog-section.html' %}
+{% endblock %}
+
+{% block content %}
+
+
+    <main class=" flex-1 relative z-0 overflow-hidden border-r border-gray-200">
+        <!-- Start main area-->
+        <div class="absolute inset-0 ">
+
+            <div class="flex flex-col h-full space-y-8">
+                {% include 'components/navigation/navbar.html' %}
+                <!-- This example requires Tailwind CSS v2.0+ -->
+                <div class="px-4 sm:px-6 lg:px-8 space-y-5">
+                    <div class="sm:flex sm:items-center px-1">
+                        <div class="sm:flex-auto">
+                            <h1 class="text-xl font-semibold text-gray-900">My documents</h1>
+                            <p class="mt-2 text-sm text-gray-700">A list of all the documents uploaded by you!</p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="flex min-w-full py-2 px-1 align-middle overflow-hidden">
+
+                        <div class="overflow-auto w-full shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+                            <div class="flex flex-nowrap justify-center items-center space-x-1 w-full bg-gray-50 border-b">
+                                <div class="item w-4/12 max-h-32 py-3.5 text-left text-sm font-semibold text-gray-900 truncate pl-3">
+                                    Title
+                                </div>
+                                <div class="item w-3/12 max-h-32 pl-3">Catalog</div>
+                                <div class="item w-2/12 max-h-32 pl-3">Category</div>
+                                <div class="item w-1/12 max-h-32 pl-3">Issued</div>
+                                <div class="item w-1/12 max-h-32 pl-3">Uploaded</div>
+                                <div class="item w-1/12 max-h-32 pr-5"></div>
+                            </div>
+                            {% for data in metadata %}
+                            <div class="flex flex-nowrap justify-center items-center space-x-1 w-full border-b border-gray-200 hover:bg-gray-50">
+                                <div class="item w-4/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">
+                                    <a href="{{ url_for('library.document', doc_id=data.fk_idDokument) }}">
+                                    {{ data.title }}
+                                    </a>
+                                </div>
+                                <div class="item w-3/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">{{ data.catalogName }}</div>
+                                <div class="item w-2/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">Category</div>
+                                <div class="item w-1/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">{{ moment(data.creationDate).format('ll') }}</div>
+                                <div class="item w-1/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">{{ moment(data.uploadDate).format('ll') }}</div>
+                                <div class="item w-1/12 text-right max-h-32 py-3.5 text-left text-sm truncate pr-5">
+                                    <a href="{{ url_for('library.editDocument', doc_id=data.fk_idDokument) }}">edit</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- End main area -->
+    </main>
+
+{% endblock %}
+
+
+<!--       htmx function viewPDF gets insert here       -->
+<!--                   example under:                   -->
+<!-- <embed src="/pdf/<id>" width="100%" height="100%"> -->
+

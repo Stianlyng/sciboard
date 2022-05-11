@@ -1,0 +1,38 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="bg-white px-4 py-5 sm:px-6 sm:rounded-lg sm:shadow hover:border-indigo-500">
+
+    <div class="flex space-x-3">
+
+        <div class="flex-shrink-0 text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                      d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
+                      clip-rule="evenodd"/>
+            </svg>
+            24
+        </div>
+        <div class="min-w-0 flex-1">
+            <p class="text-sm font-medium text-gray-900">
+                <a href="{{ url_for('library.document', doc_id=result.fk_idDokument) }}" class="hover:underline">{{ result.title }}</a>
+            </p>
+            <p class="text-sm text-gray-500">
+                <a href="#" class="hover:underline">{{ moment(result.creationDate).fromNow() }}</a>
+
+            </p>
+            <p class="opacity-50 text-sm pt-3 line-clamp-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo impedit sapiente recusandae iusto officiis
+            dolor? Laborum quibusdam quam, quidem vel assumenda repellat inventore sint nesciunt, ullam asperiores
+            magnam placeat eveniet. Aliquam voluptatibus assumenda distinctio veniam quam tempora modi aperiam nemo
+            voluptate reprehenderit quidem, nisi vero est.</p>
+
+            {% include 'components/comment-layout.html' %}
+        </div>
+
+
+
+
+    </div>
+
+
+
+</div>
+

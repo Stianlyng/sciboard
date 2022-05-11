@@ -1,0 +1,30 @@
+<div>
+    <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">{{ metadata.title }}</h3>
+    </div>
+    <div class="mt-5 border-t border-gray-200">
+        <dl class="sm:divide-y sm:divide-gray-200">
+            <div class="py-4">
+                <h2 class="font-medium text-gray-700">Description</h2>
+                <p class="text-sm mt-2 text-gray-900 sm:col-span-2">
+                    {{ metadata.description }}
+                </p>
+            </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Authors</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">Må legge inn en liste over forf her...</dd>
+            </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Uploaded</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ moment(metadata.uploadDate).fromNow() }}</dd>
+            </div>
+            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                <dt class="text-sm font-medium text-gray-500">Document Created</dt>
+                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ moment(metadata.creationDate).format('MMMM Do YYYY') }}</dd>
+            </div>
+
+
+
+        </dl>
+    </div>
+</div>

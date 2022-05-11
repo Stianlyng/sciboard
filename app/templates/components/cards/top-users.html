@@ -1,0 +1,21 @@
+<section aria-labelledby="who-to-follow-heading">
+            <div class="bg-white rounded-lg shadow">
+              <div class="p-6">
+                <h2 id="who-to-follow-heading" class="text-base font-medium text-gray-900">Top users</h2>
+                <div class="mt-6 flow-root">
+                  <ul role="list" class="-my-4 divide-y divide-gray-200">
+
+                      <div hx-get="{{ url_for('api.getTopUsers', count=5 )}}" hx-trigger="load" class="font-medium text-gray-900">
+                        <!-- users get injected here -->
+                      </div>
+
+
+                  </ul>
+                </div>
+                <div class="mt-6">
+                  <a href="#" class="w-full block text-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> View all </a>
+                </div>
+              </div>
+            </div>
+</section>
+

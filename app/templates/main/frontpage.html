@@ -1,0 +1,18 @@
+{% extends "base/center-feed.html" %}
+{% block title %}Frontpage{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important {
+            color: #336699;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <!-- Middle content -->
+    {% for data in metadata %}
+        {% include 'main/components/main-content-card.html' %}
+    {% endfor %}
+{% endblock %}
+
+

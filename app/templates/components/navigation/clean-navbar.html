@@ -1,0 +1,32 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<nav class="bg-white shadow">
+  <div class="max-w-7xl mx-auto px-4 pl-2 pr-8">
+    <div class="flex justify-between h-16">
+      <div class="flex">
+
+        <div class=" ml-2 sm:flex sm:space-x-8">
+          <!-- Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
+          <button @click="currentTab = 'first'" :class="{'border-b-2 border-indigo-500 hover:border-indigo-500 text-gray-900' : currentTab === 'first'}"    class="text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:border-b-2 inline-flex items-center px-1 pt-1  text-sm font-medium"> Comments </button>
+          <button @click="currentTab = 'second'" :class="{'border-b-2 border-indigo-500 hover:border-indigo-500 text-gray-900' : currentTab === 'second'}"  class="text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:border-b-2 inline-flex items-center px-1 pt-1  text-sm font-medium"> Metadata </button>
+          <button @click="currentTab = 'third'" :class="{ 'border-b-2 border-indigo-500 hover:border-indigo-500 text-gray-900' : currentTab === 'third'}"   class="text-gray-500 hover:border-gray-300 hover:text-gray-700 hover:border-b-2 inline-flex items-center px-1 pt-1  text-sm font-medium"> Reports </button>
+        </div>
+      </div>
+      <div class="hidden sm:ml-6 sm:flex sm:items-center">
+
+        <!-- Notification Bell dropdown -->
+                {% include 'components/dropdowns/notification-bell.html' %}
+
+                <!-- Profile dropdown -->
+                {% include 'components/dropdowns/profile-dropdown-thumbnail.html' %}
+
+                <a hx-get="{{ url_for('api.upload_modal') }}"
+                   hx-trigger="click"
+                   hx-target="#modal-container"
+                   hx-swap="innerHTML" href="#"
+                   class="ml-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Upload File </a>
+      </div>
+    </div>
+  </div>
+
+</nav>

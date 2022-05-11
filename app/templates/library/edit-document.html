@@ -1,0 +1,124 @@
+{% extends "base/full-width.html" %}
+{% block title %}Profile{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important {
+            color: #336699;
+        }
+    </style>
+{% endblock %}
+
+{% block sidebar %}
+    {% include 'components/sidebar/main-choices-section.html' %}
+    {% include 'components/sidebar/expandable-catalog-section.html' %}
+{% endblock %}
+
+{% block content %}
+
+
+    <main class=" flex-1 relative z-0 overflow-hidden border-r border-gray-200">
+        <!-- Start main area-->
+        <div class="absolute inset-0 ">
+
+            <div class="flex flex-col h-full">
+                {% include 'components/navigation/navbar.html' %}
+                <div class="grid overflow-hidden h-full grid-cols-2 grid-rows-1 gap-4">
+                    <div class="box col-span-1 p-5 overflow-y-auto">
+
+
+                        <form class="space-y-8 divide-y divide-gray-200" method="POST"
+                              action="{{ url_for('library.editDocument',doc_id=doc_id) }}">
+                            {{ form.csrf_token }}
+                            <div class="grid grid-cols-3 gap-y-6 gap-x-4">
+
+                                <div class="box sm:col-span-3 border-b pb-2">
+                                    <h3 class="text-lg font-medium leading-6 text-gray-900">Add details</h3>
+                                    <p class="mt-1 text-sm text-gray-500">This information will be displayed publicly so
+                                        be
+                                        careful what you share.</p>
+                                </div>
+
+                                <div class="box col-span-3">
+                                    <label class="block text-sm font-medium text-gray-700"> Title </label>
+                                    {{ form.title(class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm") }}
+                                </div>
+
+                                <div class="col-span-3">
+                                    <label class="block text-sm font-medium text-gray-700"> About </label>
+                                    <div class="mt-1">
+                                        {{ form.description(placeholder="description", rows=6 ,class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md") }}
+                                    </div>
+                                    <p class="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
+                                </div>
+
+
+                                <div class="box col-span-1">
+                                    <label class="block text-sm font-medium text-gray-700"> Date Issued </label>
+                                    {{ form.date(type="date",class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                </div>
+                                <div class="box col-span-1">
+                                    <label class="block text-sm font-medium text-gray-700"> Visibility </label>
+                                    {{ form.access(class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                </div>
+                                <div class="box col-span-1">
+                                    <label class="block text-sm font-medium text-gray-700"> Document Type </label>
+                                    {{ form.type(class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                </div>
+
+                                <div class="box col-span-1">
+                                    <label class="block text-sm font-medium text-gray-700"> Subject </label>
+                                    {{ form.catalog(class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                </div>
+
+                                <div x-data="{cat_id:''}" class="box col-span-1">
+                                    <label class="block text-sm font-medium text-gray-700"> Categories </label>
+                                    <select x-model="cat_id" id="categories-selector" name="location"
+                                            class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                        <option value="" disabled>Select A Category</option>
+                                        {% for choice in CategoryQuery %}
+                                        <option value="{{ choice.idTagCategory }}">{{ choice.categoryName }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                    {{ form.categories() }}
+                                </div>
+
+                                <div class="box col-span-1">
+                                    <label class="block text-sm font-medium text-gray-700"> Tags </label>
+
+                                </div>
+
+                                <div class="box col-span-3">
+                                    <label class="block text-sm font-medium text-gray-700"> Tags </label>
+                                    {{ form.tags(placeholder="Add tags separated with space",class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm") }}
+                                </div>
+
+                                <div class="box col-span-3">
+                                    <label class="block text-sm font-medium text-gray-700"> Authors </label>
+                                    {{ form.authors(placeholder="Add tags separated with a semicolon",class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm") }}
+                                </div>
+
+                                {{ form.submit(class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2") }}
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="box col-span-1">
+                        <embed src="{{ url_for('api.getPDF',id=doc_id) }}" width="100%" height="100%">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- End main area -->
+    </main>
+
+{% endblock %}
+
+
+<!--       htmx function viewPDF gets insert here       -->
+<!--                   example under:                   -->
+<!-- <embed src="/pdf/<id>" width="100%" height="100%"> -->
+

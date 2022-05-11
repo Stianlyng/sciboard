@@ -1,0 +1,15 @@
+<div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full"
+                                 src="{{ url_for('profile.getThumbnail',id=data.id) }}"
+                                 alt="">
+                        </div>
+<div class="min-w-0 flex-1">
+    <p class="text-sm font-medium text-gray-900">
+        <a href="#" class="hover:underline">{{ data.first_name }} {{ data.last_name }}</a>
+    </p>
+    <p class="text-sm text-gray-500">
+        <a href="#" class="hover:underline">
+            <time datetime="2020-12-09T11:43:00">{{ moment(data.uploadDate).fromNow() }}</time>
+        </a>
+    </p>
+</div>

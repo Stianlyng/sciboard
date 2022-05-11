@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head class="h-full bg-gray-100">
+    {% block head %}
+
+        {% include 'base/head-elements.html' %}
+
+        <title>{% block title %}{% endblock %} - OpenResearch</title>
+        {{ moment.include_moment() }}
+
+    {% endblock %}
+</head>
+<body class="h-full">
+<div x-data="{ mobileMenuOpen: false }" class="min-h-screen h-full flex">
+
+    {% include 'components/sidebar/offcanvas-mobile-menu.html' %}
+
+    <!-- Static sidebar for desktop -->
+    <div class="hidden lg:flex lg:flex-shrink-0">
+        <div class="flex flex-col w-64">
+            <!-- Sidebar component, swap this element with another sidebar if you like -->
+            <div class="flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-gray-100">
+                <div class="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+                    <div class="flex items-center flex-shrink-0 px-4">
+                        <img class="h-8 w-auto"
+                             src="https://tailwindui.com/img/logos/workflow-logo-indigo-600-mark-gray-900-text.svg"
+                             alt="Workflow">
+                    </div>
+                    <nav class="mt-5 flex-1 px-3 divide-y divide-gray-300" aria-label="Sidebar">
+                        {% block sidebar %}
+
+                        {% endblock %}
+                    </nav>
+                </div>
+                {% include 'components/sidebar/profile-footer.html' %}
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col min-w-0 flex-1 overflow-hidden">
+        <div class="lg:hidden">
+            <div class="flex items-center justify-between bg-gray-50 border-b border-gray-200 px-4 py-1.5">
+                <div>
+                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                         alt="Workflow">
+                </div>
+                <!-- Mobile menu button -->
+                <div>
+                    {% include 'components/buttons/offcanvas-mobile-menu-toggle.html' %}
+                </div>
+            </div>
+        </div>
+        <div class="flex-1 relative z-0 flex overflow-hidden">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+{% block footer %}
+    <div id="modal-container"></div>
+
+{% endblock %}
+
+</body>
+</html>

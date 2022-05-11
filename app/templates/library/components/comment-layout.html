@@ -1,0 +1,37 @@
+<div class="mt-5 border-t border-gray-200">
+
+  <div class="min-w-0 flex-1 mt-5">
+    <form method="POST" action="{{ url_for('library.document',doc_id=activeDoc) }}" class="relative">
+        {{ form.csrf_token }}
+      <div class="border border-gray-300 rounded-lg shadow-sm overflow-hidden focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+        <label for="comment" class="sr-only">Add your comment</label>
+        {{ form.comment( rows="5", class="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm", placeholder="Add your comment...") }}
+        <div class="absolute bottom-0 inset-x-0 pl-3 pr-2 py-2 flex justify-end ">
+          <button type="submit" class=" inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Post</button>
+      </div>
+      </div>
+
+
+    </form>
+  </div>
+</div>
+
+
+<div class="mt-5 border-t border-gray-200">
+<div class="flow-root mt-5">
+    <ul role="list" class="mb-8">
+        {% if commentData |length %}
+            {% for comment in commentData %}
+                <li>
+                    <div class="relative pb-8">
+                        {% include 'library/components/comment-single.html' %}
+                    </div>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>No comments yet. Be the first to comment!</p>
+
+        {% endif %}
+    </ul>
+</div>
+</div>

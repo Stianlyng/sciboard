@@ -1,6 +1,4 @@
-from flask import Flask
-app = Flask(__name__)
+from app import create_app
+from config import TestingConfig
 
-@app.route('/')
-def hello_world():
-    return 'Hello, douche!'
+app = create_app(TestingConfig)
