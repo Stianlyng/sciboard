@@ -15,7 +15,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     first = StringField('Firstname', validators=[DataRequired()])
     last = StringField('Lastname', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired()]) #fjernet , Email() på slutten
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat Password', validators=[DataRequired(),EqualTo('password')])
     submit = SubmitField('Register')
@@ -32,7 +32,7 @@ class RegistrationForm(FlaskForm):
 
 
 class ResetPasswordRequestForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired()]) #fjernet , Email() på slutten
+    email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
 
 

@@ -6,11 +6,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    """
-        Base configuration class. Contains default configuration settings + configuration settings applicable to all environments.
-        """
 
-    DEBUG = False
+    DEBUG = True
     LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT') # Viktig for logging til Heroku
     TESTING = False
     WTF_CSRF_ENABLED = True
@@ -20,6 +17,13 @@ class Config:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
+    MAIL_USE_TLS = 1
+    MAIL_USERNAME = 'sciboard.org@gmail.com'
+    MAIL_PASSWORD = 'Activate Commend7 Slip'
+    ADMINS = ['sciboard.org@gmail.com']
+
 class DevelopmentConfig(Config):
 
     DEBUG = False
@@ -27,8 +31,8 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = False
-    WTF_CSRF_ENABLED = False
-    MAIL_SUPPRESS_SEND = True # Hva betyr dette?
+    WTF_CSRF_ENABLED = True
+    MAIL_SUPPRESS_SEND = False # Hva betyr dette?
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'databases/test.db')
 
 class ProductionConfig(Config):
