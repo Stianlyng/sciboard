@@ -17,6 +17,24 @@ def getView(id=None):
         ).all()
         return render_template_string(voo)
 
+
+
+@bp.route('/docs/<vote>/<doc_id>', methods=['GET', 'POST'])
+def docVote(doc_id=None,vote=None):
+
+    voteCounter = DocumentHasMetadata.query.filter(DocumentHasMetadata.fk_idDokument == doc_id).first()
+    if vote == "up":
+        voteCounter.votes += 1
+    if vote == "down":
+        voteCounter.votes += -1
+    db.session.commit()
+    data = voteCounter.votes
+
+
+    return render_template_string(str(data))
+
+
+
 @bp.route('/docs/search/', methods=['POST'])
 @bp.route('/docs/search/<tag_id>', methods=['POST'])
 def documentSearch(tag_id=None):
@@ -122,3 +140,6 @@ def upload_modal():
     return render_template_string(templ, form=form)
 
 
+@bp.route('/delete', methods=['GET'])
+def delete():
+    return render_template_string('<div class="hidden"></div>')

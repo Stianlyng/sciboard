@@ -23,7 +23,11 @@
             <div class="flex space-x-6">
                     <span class="inline-flex items-center text-sm space-x-1">
                         <!-- UPVOTE -->
-                        <button type="button" class="inline-flex  text-gray-400 hover:text-gray-500">
+                        <button hx-get="{{ url_for('api.docVote', vote="up", doc_id=data.fk_idDokument) }}"
+                                hx-trigger="click"
+                                hx-target="#vote-counter-{{ data.fk_idDokument }}"
+                                hx-swap="innerHTML"
+                                type="button" class="inline-flex  text-gray-400 hover:text-gray-500">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                               <path fill-rule="evenodd"
                                     d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
@@ -31,9 +35,13 @@
                             </svg>
                         </button>
                         <!-- COUNTER -->
-                        <span class="font-medium text-gray-900">29</span>
+                        <span id="vote-counter-{{ data.fk_idDokument }}"class="font-medium text-gray-900"><p>{{ data.votes }}</p></span>
                         <!-- DOWNVOTE VOTE -->
-                        <button type="button" class="inline-flex text-gray-400 hover:text-gray-500">
+                        <button hx-get="{{ url_for('api.docVote', vote="down", doc_id=data.fk_idDokument) }}"
+                                hx-trigger="click"
+                                hx-target="#vote-counter-{{ data.fk_idDokument }}"
+                                hx-swap="innerHTML"
+                                type="button" class="inline-flex text-gray-400 hover:text-gray-500">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 20 20" fill="currentColor">
                               <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>

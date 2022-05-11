@@ -27,6 +27,7 @@ def frontpage():
         DocumentHasMetadata.description,
         DocumentHasMetadata.uploadDate,
         DocumentHasMetadata.views,
+        DocumentHasMetadata.votes,
         DocumentHasMetadata.comments,
         User.first_name,
         User.last_name,
