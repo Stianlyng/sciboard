@@ -4,8 +4,7 @@ from app.email import send_email
 
 
 
-def send_vertification_link_email(user):
-    token = "yoloswag"
+def send_vertification_link_email(user,token):
     send_email('[Sciboard] Activate your account!',
                sender=current_app.config['ADMINS'][0],
                recipients=[user.email],
@@ -21,8 +20,7 @@ def send_vertification_link_email(user):
 
 
 
-def send_password_reset_email(user):
-    token = "yoloswag"
+def send_password_reset_email(user,token):
     send_email('[Sciboard] Reset Your Password',
                sender=current_app.config['ADMINS'][0],
                recipients=[user.email],

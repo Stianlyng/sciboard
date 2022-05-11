@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request,current_app
 from werkzeug.urls import url_parse
 from flask_login import login_user, logout_user, current_user
 from app import db
@@ -6,6 +6,8 @@ from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm,ResetPasswordRequestForm,ResetPasswordForm
 from app.models import User
 from app.auth.email import send_password_reset_email,send_vertification_link_email
+
+from app.api.tokens import createToken,checkToken
 
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
@@ -18,6 +20,8 @@ def login():
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
+        if user.vertified is False:
+            return redirect(url_for('auth.sendActivationlink', user_id=user.id,ref="login"))
         login_user(user, remember=form.remember_me.data)
         #next_page = request.args.get('next')
         return redirect(url_for('main.frontpage'))
@@ -40,21 +44,31 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('auth.registerSuccess', user_id=user.id))
+        return redirect(url_for('auth.sendActivationlink', user_id=user.id,ref="register"))
     return render_template('auth/register.html', title='Register',
                            form=form)
 
 @bp.route('/registration-successful', methods=['GET', 'POST'])
-def registerSuccess():
+def sendActivationlink():
     if current_user.is_authenticated:
         return redirect(url_for('main.frontpage'))
     # Get the userid returned by the redirect after registration success in auth.register
     user_id_from_ref = request.args.get('user_id')
 
     user = User.query.get(user_id_from_ref)
-    # Send mail
-    send_vertification_link_email(user)
-    return render_template('auth/vertification-notice.html',firstname=user.first_name)
+    # Send vertification mail
+    # Create token
+    token = createToken(user.id,current_app.config['SECRET_KEY'])
+    send_vertification_link_email(user,token)
+    if request.args.get('ref') == 'register':
+        title = 'THANK YOU FOR REGISTERING!'
+        desc = "We're happy you signed up for SciBoard"
+
+    if request.args.get('ref') == 'login':
+        title = 'Your account has not been activated'
+        desc = "We just sent you a mail."
+
+    return render_template('auth/vertification-notice.html',firstname=user.first_name,title=title,desc=desc)
 
 
 @bp.route('/activate-account/<token>', methods=['GET', 'POST'])
@@ -63,10 +77,10 @@ def activateAccount(token):
         return redirect(url_for('main.frontpage'))
     #user = User.verify_reset_password_token(token)
 
-    hardkodetToken = "yoloswag"
-
-    if token == hardkodetToken:
-        user = User.query.get(12)
+    # Checks token and returns userID if valid...
+    checkTokenGetUserID = checkToken(token,current_app.config['SECRET_KEY'])
+    if checkTokenGetUserID is not False:
+        user = User.query.get(checkTokenGetUserID)
         user.vertified = True
         db.session.commit()
         return render_template('auth/vertification-success.html')
@@ -81,7 +95,9 @@ def reset_password_request():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
-            send_password_reset_email(user)
+            # Create token
+            token = createToken(user.id, current_app.config['SECRET_KEY'])
+            send_password_reset_email(user,token)
         flash(
             'Check your email for the instructions to reset your password')
         return redirect(url_for('auth.login'))
@@ -93,7 +109,7 @@ def reset_password_request():
 def reset_password(token):
     if current_user.is_authenticated:
         return redirect(url_for('main.frontpage'))
-    user = User.verify_reset_password_token(token)
+    user = checkToken(token, current_app.config['SECRET_KEY'])
     if not user:
         return redirect(url_for('main.frontpage'))
     form = ResetPasswordForm()

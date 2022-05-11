@@ -74,8 +74,7 @@ def trending():
     minusDays = timedelta(days=1)
     prevDate = today - minusDays
 
-    print(today)
-    print(prevDate)
+
 
     metadata = db.session.query(
         DocumentHasMetadata.fk_idDokument,
