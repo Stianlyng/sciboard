@@ -1,20 +1,21 @@
-from flask import jsonify
-from app import db
-from app.api import bp
-from app.api.auth import basic_auth, token_auth
+from datetime import datetime, timedelta
+import jwt
 
+def createToken(user_id,secret):
+    # Create an expirationdate
+    today = datetime.utcnow()
+    days = timedelta(days=2)
+    expirationDate = today + days
+    return jwt.encode({'user': user_id, 'expires': str(expirationDate)},secret, algorithm='HS256')
 
-@bp.route('/tokens', methods=['POST'])
-@basic_auth.login_required
-def get_token():
-    token = basic_auth.current_user().get_token()
-    db.session.commit()
-    return jsonify({'token': token})
+def checkToken(token,secret):
+    # Create an expirationdate
+    today = datetime.utcnow()
 
+    # DEcode
+    token = jwt.decode(token, secret, algorithms=["HS256"])
 
-@bp.route('/tokens', methods=['DELETE'])
-@token_auth.login_required
-def revoke_token():
-    token_auth.current_user().revoke_token()
-    db.session.commit()
-    return '', 204
+    if token["expires"] < str(today):
+        return False
+    else:
+        return token["user"]

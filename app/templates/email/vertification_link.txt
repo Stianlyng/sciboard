@@ -1,0 +1,11 @@
+Dear {{ user.username }},
+
+To activate your account click on the following link:
+
+{{ url_for('auth.activateAccount', token=token, _external=True) }}
+
+If you have not created an account, someone might have tried to create an account on our site with your email.
+
+Sincerely,
+
+SciBoard.org

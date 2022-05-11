@@ -11,7 +11,7 @@
     <div class="mx-auto w-full max-w-sm lg:w-96">
       <div>
         <img class="h-12 w-auto" src="{{ url_for('static', filename='favicon/android-chrome-512x512.png')}}" alt="Workflow">
-        <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+          <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
         <p class="mt-2 text-sm text-gray-600">
           New user?
           <a href="{{ url_for('auth.register') }}" class="font-medium text-indigo-600 hover:text-indigo-500"> Click to Register!</a>
@@ -46,7 +46,7 @@
               </div>
 
               <div class="text-sm">
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password? </a>
+                <a href=" {{ url_for('auth.reset_password_request') }} " class="font-medium text-indigo-600 hover:text-indigo-500"> Forgot your password? </a>
               </div>
             </div>
 

@@ -5,20 +5,22 @@ from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_moment import Moment
+from flask_mail import Mail
 from config import Config,DevelopmentConfig,TestingConfig,ProductionConfig
 
 db = SQLAlchemy()
 login = LoginManager()
 login.login_view = 'auth.login'
+mail = Mail()
 moment = Moment()
 
 
 def create_app(config_class=TestingConfig):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
     db.init_app(app)
     login.init_app(app)
+    mail.init_app(app)
     moment.init_app(app)
 
 
@@ -45,7 +47,22 @@ def create_app(config_class=TestingConfig):
     app.register_blueprint(api_bp, url_prefix='/api')
 
     if not app.debug and not app.testing:
-        # ...
+        if not app.debug and not app.testing:
+            if app.config['MAIL_SERVER']:
+                auth = None
+                if app.config['MAIL_USERNAME'] or app.config['MAIL_PASSWORD']:
+                    auth = (app.config['MAIL_USERNAME'],
+                            app.config['MAIL_PASSWORD'])
+                secure = None
+                if app.config['MAIL_USE_TLS']:
+                    secure = ()
+                mail_handler = SMTPHandler(
+                    mailhost=(app.config['MAIL_SERVER'], app.config['MAIL_PORT']),
+                    fromaddr='no-reply@' + app.config['MAIL_SERVER'],
+                    toaddrs=app.config['ADMINS'], subject='Sciboard Failure',
+                    credentials=auth, secure=secure)
+                mail_handler.setLevel(logging.ERROR)
+                app.logger.addHandler(mail_handler)
 
         if app.config['LOG_TO_STDOUT']:
             stream_handler = logging.StreamHandler()
