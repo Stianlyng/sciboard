@@ -41,13 +41,13 @@
 
                                 <div class="box col-span-3">
                                     <label class="block text-sm font-medium text-gray-700"> Title </label>
-                                    {{ form.title(class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm") }}
+                                    {{ form.title(value=checkForMeta.title,class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm") }}
                                 </div>
 
                                 <div class="col-span-3">
                                     <label class="block text-sm font-medium text-gray-700"> About </label>
                                     <div class="mt-1">
-                                        {{ form.description(placeholder="description", rows=6 ,class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md") }}
+                                        {{ form.description( placeholder="description", rows=6 ,class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md") }}
                                     </div>
                                     <p class="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
                                 </div>
@@ -55,25 +55,25 @@
 
                                 <div class="box col-span-1">
                                     <label class="block text-sm font-medium text-gray-700"> Date Issued </label>
-                                    {{ form.date(type="date",class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                    {{ form.date(value=checkForMeta.creationDate,type="date",class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
                                 </div>
                                 <div class="box col-span-1">
                                     <label class="block text-sm font-medium text-gray-700"> Visibility </label>
-                                    {{ form.access(class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                    {{ form.access(value=checkForMeta.fk_idAccess,class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
                                 </div>
                                 <div class="box col-span-1">
                                     <label class="block text-sm font-medium text-gray-700"> Document Type </label>
-                                    {{ form.type(class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                    {{ form.type(value=checkForMeta.fk_idDocumentType,class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
                                 </div>
 
                                 <div class="box col-span-1">
                                     <label class="block text-sm font-medium text-gray-700"> Subject </label>
-                                    {{ form.catalog(class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
+                                    {{ form.catalog(value=checkForMeta.fk_idCatalog,class="block w-full rounded-md border-gray-300 py-2 pl-3 pr-3 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm") }}
                                 </div>
 
                                 <div x-data="{cat_id:''}" class="box col-span-1">
                                     <label class="block text-sm font-medium text-gray-700"> Categories </label>
-                                    <select x-model="cat_id" id="categories-selector" name="location"
+                                    <select x-model="cat_id" id="categories-selector" name="category"
                                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                         <option value="" disabled>Select A Category</option>
                                         {% for choice in CategoryQuery %}
@@ -81,7 +81,6 @@
                                         {% endfor %}
 
                                     </select>
-                                    {{ form.categories() }}
                                 </div>
 
                                 <div class="box col-span-1">

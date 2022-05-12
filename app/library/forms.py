@@ -6,8 +6,6 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo,opt
 
 
 class MetadataForm(FlaskForm):
-
-    document_id = HiddenField(validators=[DataRequired()])
     title = StringField(validators=[DataRequired()])
     authors = StringField(validators=[DataRequired()])
     description = TextAreaField([optional(), length(max=10000)])
@@ -15,7 +13,6 @@ class MetadataForm(FlaskForm):
     access = SelectField(choices=[],coerce=int,validators=[DataRequired()])
     type = SelectField(choices=[],coerce=int,validators=[DataRequired()])
     catalog = SelectField(choices=[],coerce=int,validators=[DataRequired()], render_kw={'hx-get': '/library/getCatalogHasTagCategory','hx-target': '#categories-selector'})
-    categories = HiddenField(validators=[DataRequired()],render_kw={'x-model': 'cat_id'})
     tags = StringField(validators=[DataRequired()])
     submit = SubmitField('Submit')
 

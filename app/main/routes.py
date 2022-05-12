@@ -38,7 +38,7 @@ def frontpage():
     ).all()
 
     catalogs = Catalog.query.all()
-    categories = db.session.query(TagCategory.categoryName, CatalogHasTagCategory.fk_idCatalog).join(TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory).all()
+    categories = db.session.query(TagCategory.categoryName,TagCategory.idTagCategory, CatalogHasTagCategory.fk_idCatalog).join(TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory).all()
 
     return render_template('main/frontpage.html', metadata=metadata, catalogs=catalogs, categories=categories)
 
@@ -64,12 +64,37 @@ def popular():
     ).all()
 
     catalogs = Catalog.query.all()
-    categories = db.session.query(TagCategory.categoryName, CatalogHasTagCategory.fk_idCatalog).join(TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory).all()
+    categories = db.session.query(TagCategory.categoryName,TagCategory.idTagCategory, CatalogHasTagCategory.fk_idCatalog).join(TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory).all()
 
     return render_template('main/frontpage.html', metadata=metadata, catalogs=catalogs, categories=categories)
 
 
+@bp.route('/category/<cat_id>', methods=['GET', 'POST'])
+@login_required
+def category(cat_id=None):
+    metadata = db.session.query(
+        TagCategory.idTagCategory,
+        DocumentHasMetadata.fk_idDokument,
+        DocumentHasMetadata.title,
+        DocumentHasMetadata.description,
+        DocumentHasMetadata.uploadDate,
+        DocumentHasMetadata.views,
+        DocumentHasMetadata.comments,
+    ).join(
+        CatalogHasTagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory
+    ).join(
+        Catalog, CatalogHasTagCategory.fk_idCatalog == Catalog.idCatalog
+    ).join(
+        DocumentHasMetadata, Catalog.idCatalog == DocumentHasMetadata.fk_idCatalog
+    ).filter(
+        TagCategory.idTagCategory == cat_id
+    ).all()
 
+
+    catalogs = Catalog.query.all()
+    categories = db.session.query(TagCategory.categoryName,TagCategory.idTagCategory, CatalogHasTagCategory.fk_idCatalog).join(TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory).all()
+
+    return render_template('main/frontpage.html', metadata=metadata, catalogs=catalogs, categories=categories)
 
 @bp.route('/trending', methods=['GET', 'POST'])
 @login_required
@@ -101,7 +126,7 @@ def trending():
     ).all()
 
     catalogs = Catalog.query.all()
-    categories = db.session.query(TagCategory.categoryName, CatalogHasTagCategory.fk_idCatalog).join(TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory).all()
+    categories = db.session.query(TagCategory.categoryName,TagCategory.idTagCategory, CatalogHasTagCategory.fk_idCatalog).join(TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory).all()
 
     return render_template('main/frontpage.html', metadata=metadata, catalogs=catalogs, categories=categories)
 
