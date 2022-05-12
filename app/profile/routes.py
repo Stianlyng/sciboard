@@ -32,18 +32,37 @@ def settings():
     # Settings Form
     form = UploadThumbnailForm()
     if form.validate_on_submit():
-        # File Upload
-        fileData = form.image.data
-        fileName = secure_filename(fileData.filename)
-        mimeType = fileData.mimetype
+        if form.image.data is not None:
+            # File Upload
+            fileData = form.image.data
+            fileName = secure_filename(fileData.filename)
+            mimeType = fileData.mimetype
 
-        # More stuff for db
-        blob = fileData.read()
-        size = len(blob)
+            # More stuff for db
+            blob = fileData.read()
+            size = len(blob)
 
-        # Add file to database
-        img = Thumbnail(size=size, mimetype=mimeType, filename=fileName, image=blob, fk_idUser=current_user.id)
-        db.session.add(img)
+            # Add file to database
+            thumb = Thumbnail.query.filter_by(fk_idUser=current_user.id).first()
+            if thumb is None:
+                img = Thumbnail(size=size, mimetype=mimeType, filename=fileName, image=blob, fk_idUser=current_user.id)
+                db.session.add(img)
+            else:
+                thumb.size = size
+                thumb.mimetype = mimeType
+                thumb.filename = fileName
+                thumb.image = blob
+                thumb.fk_idUser = current_user.id
+
+        user = User.query.get(current_user.id)
+        if form.first.data is not None:
+            user.first_name = form.first.data
+        if form.last.data is not None:
+            user.last_name = form.last.data
+        if form.about.data is not None:
+            user.about_me = form.about.data
+
+
         db.session.commit()
 
         return redirect(url_for('profile.settings'))

@@ -9,7 +9,7 @@ from app.models import User
 
 class UploadThumbnailForm(FlaskForm):
 
-    image = FileField(validators=[FileRequired()])
+    image = FileField()
     username = StringField('Username')
     first = StringField('Firstname')
     last = StringField('Lastname')

@@ -160,7 +160,7 @@ def editDocument(doc_id=None):
     ).all()
 
     return render_template('library/edit-document.html', form=form, doc_id=doc_id, CategoryQuery=CategoryQuery,
-                           catalogs=catalogs, categories=categories,checkForMeta=checkForMeta)
+                       catalogs=catalogs, categories=categories,checkForMeta=checkForMeta)
 
 
 # Inserts the correct tag category in select
