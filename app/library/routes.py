@@ -1,11 +1,13 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, render_template_string, redirect, url_for, make_response,session
+    jsonify, current_app, render_template_string, redirect, url_for, make_response, session
 from flask_login import current_user, login_required
 from app import db
-from app.models import DocumentHasMetadata,Catalog,TagCategory,CatalogHasTagCategory,Access,DocumentType,User, Comment, Tags
+from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagCategory, Access, DocumentType, User, \
+    Comment, Tags
 from app.library import bp
-from app.library.forms import MetadataForm,CommentForm
+from app.library.forms import MetadataForm, CommentForm
+
 
 @login_required
 @bp.route('/document/<doc_id>', methods=['GET', 'POST'])
@@ -14,7 +16,7 @@ def document(doc_id=None):
         pass
 
     # Sets the active document
-    #session['active_document_id'] = doc_id
+    # session['active_document_id'] = doc_id
 
     # Metadata for document in preview
     metadata = db.session.query(
@@ -76,8 +78,8 @@ def document(doc_id=None):
 
         return redirect(request.url)
 
-    return render_template('library/document.html',form=form,tags=tags,  catalogs=catalogs, categories=categories, activeDoc=doc_id, commentData=commentData, metadata=metadata)
-
+    return render_template('library/document.html', form=form, tags=tags, catalogs=catalogs, categories=categories,
+                           activeDoc=doc_id, commentData=commentData, metadata=metadata)
 
 
 # Edit Document
@@ -87,14 +89,6 @@ def editDocument(doc_id=None):
     checkForMeta = DocumentHasMetadata.query.filter(DocumentHasMetadata.fk_idDokument == doc_id).first()
 
     form = MetadataForm()
-
-    if checkForMeta is not None:
-        form.title.data = checkForMeta.title
-        form.description.data = checkForMeta.description
-        form.date.data = checkForMeta.creationDate
-        form.catalog.data = checkForMeta.fk_idCatalog
-        form.access.data = checkForMeta.fk_idAccess
-        form.type.data = checkForMeta.fk_idDocumentType
 
     # Choices for the select fields
 
@@ -122,23 +116,38 @@ def editDocument(doc_id=None):
         CatalogHasTagCategory.fk_idCatalog == catalogQuery[0].idCatalog
     ).all()
 
-    #choices = [(i.idTagCategory, i.categoryName) for i in CategoryQuery]
+    # choices = [(i.idTagCategory, i.categoryName) for i in CategoryQuery]
 
     if form.validate_on_submit():
-        addMeta = DocumentHasMetadata(
-            title=form.title.data,
-            description=form.description.data,
-            creationDate=form.date.data,
-            fk_idDokument=doc_id,
-            fk_idUser=current_user.id,
-            fk_idCatalog=form.catalog.data,
-            fk_idAccess=form.access.data,
-            fk_idDocumentType=form.type.data)
-        db.session.add(addMeta)
+
+        print(request.form.get('category', type=int))
+
+        document = DocumentHasMetadata.query.filter_by(fk_idDokument=doc_id).first()
+        print(document)
+        if document is not None:
+            document.title = form.title.data
+            document.description = form.description.data
+            document.creationDate = form.date.data
+            document.uploadDate = document.uploadDate
+            document.fk_idCatalog = form.catalog.data
+            document.fk_idAccess = form.access.data
+            document.fk_idDocumentType = form.type.data
+        else:
+            addMeta = DocumentHasMetadata(
+                title=form.title.data,
+                description=form.description.data,
+                creationDate=form.date.data,
+                fk_idDokument=doc_id,
+                fk_idUser=current_user.id,
+                fk_idCatalog=form.catalog.data,
+                fk_idAccess=form.access.data,
+                fk_idDocumentType=form.type.data)
+            db.session.add(addMeta)
+
         db.session.commit()
 
 
-        return redirect(url_for('library.editDocument',doc_id=doc_id))
+        return redirect(url_for('library.editDocument', doc_id=doc_id))
 
         # For sidebar
     catalogs = Catalog.query.all()
@@ -150,7 +159,8 @@ def editDocument(doc_id=None):
         TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory
     ).all()
 
-    return render_template('library/edit-document.html', form=form, doc_id=doc_id,CategoryQuery=CategoryQuery, catalogs=catalogs, categories=categories)
+    return render_template('library/edit-document.html', form=form, doc_id=doc_id, CategoryQuery=CategoryQuery,
+                           catalogs=catalogs, categories=categories,checkForMeta=checkForMeta)
 
 
 # Inserts the correct tag category in select
@@ -171,18 +181,17 @@ def getCatalogHasTagCategory():
     templ = """
             <option value="" disabled>Select A Category</option>
             {% for choice in CategoryQuery %}
-                <option value="{{ choice.idTagCategory }}">{{ choice.categoryName }}</option>
+            <option value="{{ choice.idTagCategory }}">{{ choice.categoryName }}</option>
             {% endfor %}
             """
     print(CategoryQuery)
-    return render_template_string(templ,CategoryQuery=CategoryQuery )
+    return render_template_string(templ, CategoryQuery=CategoryQuery)
 
 
 # List of my documents
 @login_required
 @bp.route('/document/<username>/', methods=['GET', 'POST'])
 def myDocuments(username=None):
-
     # Metadata for document in preview
     metadata = db.session.query(
         DocumentHasMetadata.title,
@@ -201,7 +210,6 @@ def myDocuments(username=None):
     ).filter(
         DocumentHasMetadata.fk_idUser == current_user.id
     ).all()
-
 
     # For sidebar
     catalogs = Catalog.query.all()

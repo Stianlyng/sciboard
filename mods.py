@@ -15,12 +15,17 @@ class DatabaseRunner():
     def testQuery(self):
         query = db.session.query(
             TagCategory.idTagCategory,
-            TagCategory.categoryName
+            DocumentHasMetadata.fk_idDokument
         ).join(
             CatalogHasTagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory
+        ).join(
+            Catalog, CatalogHasTagCategory.fk_idCatalog == Catalog.idCatalog
+        ).join(
+            DocumentHasMetadata, Catalog.idCatalog == DocumentHasMetadata.fk_idCatalog
         ).filter(
-            CatalogHasTagCategory.fk_idCatalog == 2
+            TagCategory.idTagCategory == 2
         ).all()
+
 
         print(query)
         self.app_context.pop()
@@ -226,7 +231,7 @@ def databaseSetup(activeConfig, run=False, test=False):
         testDB = DatabaseRunner(activeConfig)
         testDB.testQuery()
 
-databaseSetup(TestingConfig, run=True, test=False)
+databaseSetup(TestingConfig, run=False, test=True)
 
 
 
