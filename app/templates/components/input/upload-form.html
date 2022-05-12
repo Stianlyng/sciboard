@@ -24,12 +24,13 @@
         </div>
         <div class="box col-span-3 pb-1 px-2">
             <div class="mt-1 flex justify-end">
-                <button hx-get="{{ url_for('api.delete') }}"
+                <a hx-get="{{ url_for('api.delete') }}"
+                   hx-trigger="click"
                         hx-target="#modal-container"
-                        hx-swap="innerHTML" href="#" type="button"
-                        class="z-10 rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        hx-swap="innerHTML"  type="button"
+                        class="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     Cancel
-                </button>
+                </a>
                 {{ form.submit(class="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2") }}
             </div>
         </div>

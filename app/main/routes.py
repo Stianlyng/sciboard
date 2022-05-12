@@ -68,6 +68,9 @@ def popular():
 
     return render_template('main/frontpage.html', metadata=metadata, catalogs=catalogs, categories=categories)
 
+
+
+
 @bp.route('/trending', methods=['GET', 'POST'])
 @login_required
 def trending():

@@ -7,6 +7,7 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo,opt
 
 class MetadataForm(FlaskForm):
 
+    document_id = HiddenField(validators=[DataRequired()])
     title = StringField(validators=[DataRequired()])
     authors = StringField(validators=[DataRequired()])
     description = TextAreaField([optional(), length(max=10000)])
