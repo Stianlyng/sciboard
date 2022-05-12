@@ -174,6 +174,7 @@ def getCatalogHasTagCategory():
                 <option value="{{ choice.idTagCategory }}">{{ choice.categoryName }}</option>
             {% endfor %}
             """
+    print(CategoryQuery)
     return render_template_string(templ,CategoryQuery=CategoryQuery )
 
 

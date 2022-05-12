@@ -11,7 +11,6 @@ def createToken(user_id,secret):
 def checkToken(token,secret):
     # Create an expirationdate
     today = datetime.utcnow()
-
     # DEcode
     token = jwt.decode(token, secret, algorithms=["HS256"])
 
@@ -19,3 +18,5 @@ def checkToken(token,secret):
         return False
     else:
         return token["user"]
+
+

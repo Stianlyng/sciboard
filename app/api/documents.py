@@ -43,7 +43,7 @@ def documentSearch(tag_id=None):
                 <li class="relative bg-white py-5 px-4 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
                     <div class="flex justify-between space-x-3">
                         <div class="min-w-0 flex-1">
-                            <a href="{{ url_for('explore.index', doc_id=result.fk_idDokument) }}" class="block focus:outline-none">
+                            <a href="{{ url_for('library.document', doc_id=result.fk_idDokument ) }}" class="block focus:outline-none">
                                 <span class="absolute inset-0" aria-hidden="true"></span>
                                 <p class="text-sm font-medium text-gray-900 truncate">{{ result.title }}</p>
                                 <p class="text-sm text-gray-500 truncate">@{{ result.username }}</p>
