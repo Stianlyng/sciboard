@@ -45,7 +45,7 @@ class DatabaseRunner():
             Access(accessType='User'),
             Access(accessType='Admin'),
 
-            User(username='admin', email='sciboard@gmail.com', first_name='admin', last_name='modson', password_hash=stdPwd,vertified=True),
+            User(username='admin', email='sciboard.org@gmail.com', first_name='admin', last_name='modson', password_hash=stdPwd,vertified=True),
             User(username='bruker', email='test2@yo.no', first_name='Bruker', last_name='Brukersen', password_hash=stdPwd,vertified=True),
             User(username='Tiger', email='test3@yo.no', first_name='Tiger', last_name='Woods', password_hash=stdPwd,vertified=True),
             User(username='Elon', email='test4@yo.no', first_name='Elon', last_name='Musk', password_hash=stdPwd,vertified=True),
