@@ -1,5 +1,5 @@
 from app import create_app,db
-from datetime import date
+import datetime
 
 from app.models import Access,User,Author,Catalog,TagCategory,Tags,CatalogHasTagCategory,TagCategoryHasTags,Document,DocumentHasMetadata,Thumbnail,DocumentHasTags,Comment,DocumentType
 from configs.db.docData import *
@@ -196,17 +196,17 @@ class DatabaseRunner():
             Document(size='2111787', mimetype='application/pdf', filename='17656_FULLTEXT.pdf', document=doc5),
             Document(size='5232735', mimetype='application/pdf', filename='18336_FULLTEXT.pdf', document=doc6),
 
-            DocumentHasMetadata(title=tit1, description=desc1, creationDate=date.today(), fk_idDokument=1, fk_idUser=1,
+            DocumentHasMetadata(title=tit1, description=desc1, creationDate=datetime.datetime(2022, 1, 16), fk_idDokument=1, fk_idUser=1,
                                 fk_idCatalog=1, fk_idAccess=1,fk_idDocumentType=1),
-            DocumentHasMetadata(title=tit2, description=desc2, creationDate=date.today(), fk_idDokument=2, fk_idUser=2,
+            DocumentHasMetadata(title=tit2, description=desc2, creationDate=datetime.datetime(2021, 2, 17), fk_idDokument=2, fk_idUser=2,
                                 fk_idCatalog=2, fk_idAccess=1,fk_idDocumentType=2),
-            DocumentHasMetadata(title=tit3, description=desc3, creationDate=date.today(), fk_idDokument=3, fk_idUser=3,
+            DocumentHasMetadata(title=tit3, description=desc3, creationDate=datetime.datetime(2020, 3, 18), fk_idDokument=3, fk_idUser=3,
                                 fk_idCatalog=3, fk_idAccess=1,fk_idDocumentType=1),
-            DocumentHasMetadata(title=tit4, description=desc4, creationDate=date.today(), fk_idDokument=4, fk_idUser=4,
+            DocumentHasMetadata(title=tit4, description=desc4, creationDate=datetime.datetime(2019, 4, 19), fk_idDokument=4, fk_idUser=4,
                                 fk_idCatalog=4, fk_idAccess=1,fk_idDocumentType=2),
-            DocumentHasMetadata(title=tit5, description=desc5, creationDate=date.today(), fk_idDokument=5, fk_idUser=5,
+            DocumentHasMetadata(title=tit5, description=desc5, creationDate=datetime.datetime(2018, 5, 20), fk_idDokument=5, fk_idUser=5,
                                 fk_idCatalog=5, fk_idAccess=1,fk_idDocumentType=1),
-            DocumentHasMetadata(title=tit6, description=desc6, creationDate=date.today(), fk_idDokument=6, fk_idUser=6,
+            DocumentHasMetadata(title=tit6, description=desc6, creationDate=datetime.datetime(2017, 6, 21), fk_idDokument=6, fk_idUser=6,
                                 fk_idCatalog=6, fk_idAccess=1,fk_idDocumentType=1),
 
 
@@ -231,7 +231,7 @@ def databaseSetup(activeConfig, run=False, test=False):
         testDB = DatabaseRunner(activeConfig)
         testDB.testQuery()
 
-databaseSetup(TestingConfig, run=False, test=True)
+databaseSetup(TestingConfig, run=True, test=False)
 
 
 
