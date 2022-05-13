@@ -1,7 +1,7 @@
 from flask import render_template,  request,render_template_string, redirect, url_for
 from flask_login import current_user, login_required
 from app import db
-from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagCategory, Access, DocumentType, User, Comment, Tags
+from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagCategory, Access, DocumentType, User, Comment, Tags,Document,DocumentHasAuthor,DocumentHasTags
 from app.library import bp
 from app.library.forms import MetadataForm, CommentForm
 
@@ -225,3 +225,30 @@ def myDocuments(username=None):
     ).all()
 
     return render_template('library/my-documents.html', catalogs=catalogs, categories=categories, metadata=metadata)
+
+@login_required
+@bp.route('/delete-document/<doc_id>', methods=['GET', 'POST'])
+def deleteDocument(doc_id=None):
+
+
+    documentDelete = Document.query.filter_by(idDocument=doc_id).first()
+    db.session.delete(documentDelete)
+
+    metaToDelete = DocumentHasMetadata.query.filter_by(fk_idDokument=doc_id).first()
+    db.session.delete(metaToDelete)
+
+    commentToDelete = Comment.query.filter_by(fk_idDokument=doc_id).all()
+    for comment in commentToDelete:
+        db.session.delete(comment)
+
+    docAuthorToDelete = DocumentHasAuthor.query.filter_by(fk_idDokument=doc_id).all()
+    for author in docAuthorToDelete:
+        db.session.delete(author)
+
+    docTagsToDelete = DocumentHasTags.query.filter_by(fk_idDokument=doc_id).all()
+    for tag in docTagsToDelete:
+        db.session.delete(tag)
+
+    db.session.commit()
+
+    return redirect(url_for('library.myDocuments',username=current_user))
