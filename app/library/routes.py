@@ -164,6 +164,7 @@ def editDocument(doc_id=None):
 
 
 # Inserts the correct tag category in select
+@login_required
 @bp.route('/getCatalogHasTagCategory', methods=['GET'])
 def getCatalogHasTagCategory():
     idCatalogArg = request.args.get('catalog')
