@@ -8,9 +8,9 @@ from app.library.forms import MetadataForm, CommentForm
 
 @login_required
 @bp.route('/document/<doc_id>', methods=['GET', 'POST'])
-def document(doc_id=None):
-    if doc_id is None:
-        pass
+@bp.route('/document/<doc_id>/<ref_post>', methods=['GET', 'POST'])
+def document(doc_id=None,ref_post=None):
+
 
     # Metadata for document in preview
     metadata = db.session.query(
@@ -35,6 +35,8 @@ def document(doc_id=None):
     commentData = db.session.query(
         Comment.date,
         Comment.comment,
+        Comment.idComment,
+        Comment.fk_idComment,
         User.first_name,
         User.last_name,
         User.id
@@ -59,11 +61,19 @@ def document(doc_id=None):
 
     form = CommentForm()
     if form.validate_on_submit():
-        commentQuery = Comment(
-            comment=form.comment.data,
-            fk_idUser=current_user.id,
-            fk_idDokument=doc_id
-        )
+        if ref_post is None:
+            commentQuery = Comment(
+                comment=form.comment.data,
+                fk_idUser=current_user.id,
+                fk_idDokument=doc_id
+            )
+        else:
+            commentQuery = Comment(
+                comment=form.comment.data,
+                fk_idUser=current_user.id,
+                fk_idDokument=doc_id,
+                fk_idComment=ref_post
+            )
         # Add to commentcounter in metadata
         commentCount = DocumentHasMetadata.query.get(commentQuery.fk_idDokument)
         commentCount.comments += 1

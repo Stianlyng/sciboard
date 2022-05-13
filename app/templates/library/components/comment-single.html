@@ -7,7 +7,7 @@
              alt="">
 
     </div>
-    <div class="min-w-0 flex-1">
+    <div x-data="{ open: false }" class="min-w-0 flex-1">
         <div>
             <div class="text-sm">
                 <a href="#" class="font-medium text-gray-900">{{ comment.first_name }} {{ comment.last_name }}</a>
@@ -16,6 +16,24 @@
         </div>
         <div class="mt-2 text-sm text-gray-700">
             <p>{{ comment.comment }}</p>
+        </div>
+        <div x-show="open" class="mt-2 py-5 pr-8">
+            <form method="POST" action="{{ url_for('library.document',doc_id=activeDoc,ref_post=comment.idComment) }}" class="relative">
+                {{ form.csrf_token }}
+                <div class="border border-gray-300 rounded-lg shadow-sm overflow-hidden focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500">
+                    <label for="comment" class="sr-only">Add your comment</label>
+                    {{ form.comment( rows="5", class="block w-full py-3 border-0 resize-none focus:ring-0 sm:text-sm", placeholder="Add your comment...") }}
+                    <div class="absolute bottom-0 inset-x-0 pl-3 pr-2 py-2 flex justify-end ">
+                        <button type="submit"
+                                class=" inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Post
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="mt-2 text-xs font-bold ">
+            <button @click="open = true">Reply</button>
         </div>
 
     </div>

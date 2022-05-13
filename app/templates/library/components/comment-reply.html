@@ -1,0 +1,22 @@
+<span class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+<div class="relative flex items-start space-x-3">
+    <div class="relative">
+
+        <img class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
+             src="{{ url_for('profile.getThumbnail',id=comment.id) }}"
+             alt="">
+
+    </div>
+    <div  class="min-w-0 flex-1">
+        <div>
+            <div class="text-sm">
+                <a href="#" class="font-medium text-gray-900">{{ comment.first_name }} {{ comment.last_name }}</a>
+            </div>
+            <p class="mt-0.5 text-sm text-gray-500">{{ moment(comment.date).fromNow() }}</p>
+        </div>
+        <div class="mt-2 text-sm text-gray-700">
+            <p>{{ comment.comment }}</p>
+        </div>
+
+    </div>
+</div>
