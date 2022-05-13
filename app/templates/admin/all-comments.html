@@ -16,62 +16,212 @@
 
 {% block content %}
 
+    <!--
+  This example requires Tailwind CSS v2.0+
 
-    <main class=" flex-1 relative z-0 overflow-hidden border-r border-gray-200">
-        <!-- Start main area-->
-        <div class="absolute inset-0 ">
+  This example requires some changes to your config:
 
-            <div class="flex flex-col h-full space-y-8">
-                {% include 'components/navigation/clean-navbar.html' %}
-                <!-- This example requires Tailwind CSS v2.0+ -->
-               <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="px-4 sm:px-6 lg:px-8">
-  <div class="sm:flex sm:items-center">
-    <div class="sm:flex-auto">
-      <h1 class="text-xl font-semibold text-gray-900">All comments</h1>
-      <p class="mt-2 text-sm text-gray-700">A list of all the comments made.</p>
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+    <!--
+      This example requires updating your template:
+
+      ```
+      <html class="h-full bg-white">
+      <body class="h-full">
+      ```
+    -->
+    <div class="min-h-full w-full">
+
+        <!-- Page heading -->
+        <header class="bg-gray-50 py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:flex xl:items-center xl:justify-between">
+                <div class="flex-1 min-w-0">
+                    <nav class="flex" aria-label="Breadcrumb">
+                        <ol role="list" class="flex items-center space-x-4">
+                            <li>
+                                <div>
+                                    <a href="#" class="text-sm font-medium text-gray-500 hover:text-gray-700">Admin</a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <!-- Heroicon name: solid/chevron-right -->
+                                    <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                    <a href="{{ url_for('admin.comments') }}"
+                                       class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Comments</a>
+                                </div>
+                            </li>
+                        </ol>
+                    </nav>
+                    <h1 class="mt-2 text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">Admin
+                        Dashboardd</h1>
+
+                </div>
+
+            </div>
+        </header>
+
+        <main class="pt-8 pb-16">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="px-4 sm:px-0">
+                    <h2 class="text-lg font-medium text-gray-900">Comments Overview</h2>
+
+                    <!-- Tabs -->
+                    <div class="sm:hidden">
+                        <label for="tabs" class="sr-only">Select a tab</label>
+                        <!-- Use an "onChange" listener to redirect the user to the selected tab URL. -->
+                        <select id="tabs" name="tabs"
+                                class="mt-4 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                            <option selected>All comments</option>
+
+                            <option>Deleted Comments</option>
+
+
+                        </select>
+                    </div>
+                    <div class="hidden sm:block">
+                        <div class="border-b border-gray-200">
+                            <nav class="mt-2 -mb-px flex space-x-8" aria-label="Tabs">
+                                <!-- Current: "border-purple-500 text-purple-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200" -->
+                                <a href="{{ url_for('admin.comments') }}"
+                                   class=" {{ 'border-purple-500 text-purple-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' if  activeTab == 'all-comments' else 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' }}">
+                                    All comments
+                                </a>
+
+                                <a href="{{ url_for('admin.deletedComments') }}"
+                                   class=" {{ 'border-purple-500 text-purple-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' if  activeTab == 'deleted-comments' else 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' }}">
+                                    Deleted Comments
+                                </a>
+
+
+
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col"
+                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Comment
+                            </th>
+                            <th scope="col"
+                                class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">
+                                By user
+                            </th>
+                            <th scope="col"
+                                class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">
+                                Date
+                            </th>
+                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Document
+                            </th>
+                            <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <span class="sr-only">Delete</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+
+                        {% for data in metadata %}
+                            <tr>
+                                <td class="whitespace-normal py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ data.comment }}</td>
+                                <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ data.username }}</td>
+                                <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">{{ moment(data.date).format('ll') }}</td>
+
+                                <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">
+                                    <a href="{{ url_for('library.document',doc_id=data.fk_idDokument) }}"
+                                       class="text-indigo-600 hover:text-indigo-900">
+                                        Show
+                                        <span class="sr-only">Document</span>
+                                    </a>
+                                </td>
+                                {% if activeTab =='all-comments' %}
+                                <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                    <a href="{{ url_for('admin.deleteComment',comment_id=data.idComment) }}"
+                                       class="text-indigo-600 hover:text-indigo-900">Delete</a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        <!-- More people... -->
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- Pagination -->
+                <nav class="border-t border-gray-200 px-4 flex items-center justify-between sm:px-0"
+                     aria-label="Pagination">
+                    <div class="-mt-px w-0 flex-1 flex">
+                        <a href="#"
+                           class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-200">
+                            <!-- Heroicon name: solid/arrow-narrow-left -->
+                            <svg class="mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                            Previous
+                        </a>
+                    </div>
+                    <div class="hidden md:-mt-px md:flex">
+                        <a href="#"
+                           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
+                            1 </a>
+                        <!-- Current: "border-purple-500 text-purple-600", Default: "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200" -->
+                        <a href="#"
+                           class="border-purple-500 text-purple-600 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
+                           aria-current="page"> 2 </a>
+                        <a href="#"
+                           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
+                            3 </a>
+                        <a href="#"
+                           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
+                            4 </a>
+                        <a href="#"
+                           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
+                            5 </a>
+                        <a href="#"
+                           class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
+                            6 </a>
+                    </div>
+                    <div class="-mt-px w-0 flex-1 flex justify-end">
+                        <a href="#"
+                           class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-200">
+                            Next
+                            <!-- Heroicon name: solid/arrow-narrow-right -->
+                            <svg class="ml-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                 viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </main>
     </div>
 
-  </div>
-  <div class="-mx-4 mt-8 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
-    <table class="min-w-full divide-y divide-gray-300">
-      <thead class="bg-gray-50">
-        <tr>
-          <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Comment</th>
-          <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell">By user</th>
-          <th scope="col" class="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell">Date</th>
-          <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Document</th>
-          <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-            <span class="sr-only">Delete</span>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-200 bg-white">
-
-      {% for data in metadata %}
-        <tr>
-          <td class="whitespace-normal py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ data.comment }}</td>
-          <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 sm:table-cell">{{ data.username }}</td>
-          <td class="hidden whitespace-nowrap px-3 py-4 text-sm text-gray-500 lg:table-cell">{{ moment(data.date).format('ll') }}</td>
-
-          <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-            <a href="{{ url_for('library.document',doc_id=data.fk_idDokument) }}" class="text-indigo-600 hover:text-indigo-900">Show</a>
-          </td>
-            <td class="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-            <a href="{{ url_for('admin.deleteComment',comment_id=data.idComment) }}" class="text-indigo-600 hover:text-indigo-900">Delete</a>
-          </td>
-        </tr>
-     {% endfor %}
-        <!-- More people... -->
-      </tbody>
-    </table>
-  </div>
-</div>
 
 
-        </div>
-        <!-- End main area -->
-    </main>
 
 {% endblock %}
 <!-- This example requires Tailwind CSS v2.0+ -->
