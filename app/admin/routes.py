@@ -1,12 +1,19 @@
 from flask import render_template, redirect, url_for, flash, request,current_app
-from flask_login import login_user, logout_user, current_user
+from flask_login import login_user, logout_user, current_user,login_required
 from app import db
 from app.admin import bp
 from app.models import User,Comment,DeletedComment, DocumentHasMetadata
 
+
+
+
+@login_required
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/comments', methods=['GET', 'POST'])
 def comments():
+    if current_user.email not in current_app.config['ADMINS']:
+        return redirect(url_for('main.frontpage'))
+
     metadata = db.session.query(
         DocumentHasMetadata.fk_idDokument,
         Comment.idComment,
@@ -25,8 +32,11 @@ def comments():
                            )
 
 
+@login_required
 @bp.route('/deleted-comments', methods=['GET', 'POST'])
 def deletedComments():
+    if current_user.email not in current_app.config['ADMINS']:
+        return redirect(url_for('main.frontpage'))
     metadata = db.session.query(
         DocumentHasMetadata.fk_idDokument,
         DeletedComment.idComment,
@@ -46,8 +56,11 @@ def deletedComments():
 
 
 
+@login_required
 @bp.route('/delete-comment/<comment_id>', methods=['GET', 'POST'])
 def deleteComment(comment_id=None):
+    if current_user.email not in current_app.config['ADMINS']:
+        return redirect(url_for('main.frontpage'))
 
     commentToDelete = Comment.query.get(comment_id)
     commentToAdd = DeletedComment(
@@ -63,8 +76,11 @@ def deleteComment(comment_id=None):
     return redirect(url_for('admin.comments'))
 
 
+@login_required
 @bp.route('/users', methods=['GET', 'POST'])
 def users():
+    if current_user.email not in current_app.config['ADMINS']:
+        return redirect(url_for('main.frontpage'))
     metadata = User.query.all()
 
     return render_template('admin/users.html',
@@ -72,8 +88,11 @@ def users():
                            activeTab='all-users',)
 
 
+@login_required
 @bp.route('/delete-user/<user_id>', methods=['GET', 'POST'])
 def deleteUser(user_id=None):
+    if current_user.email not in current_app.config['ADMINS']:
+        return redirect(url_for('main.frontpage'))
 
     commentToDelete = User.query.get(user_id)
     db.session.delete(commentToDelete)
