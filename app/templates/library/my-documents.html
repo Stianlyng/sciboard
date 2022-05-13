@@ -58,8 +58,9 @@
                                 <div class="item w-2/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">Category</div>
                                 <div class="item w-1/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">{{ moment(data.creationDate).format('ll') }}</div>
                                 <div class="item w-1/12 max-h-32 py-3.5  text-left text-sm truncate pl-3">{{ moment(data.uploadDate).format('ll') }}</div>
-                                <div class="item w-1/12 text-right max-h-32 py-3.5 text-left text-sm truncate pr-5">
-                                    <a href="{{ url_for('library.editDocument', doc_id=data.fk_idDokument) }}">edit</a>
+                                <div class="item w-1/12 text-right max-h-32 py-3.5 text-left text-sm truncate pr-5 space-x-4">
+                                    <a href="{{ url_for('library.editDocument', doc_id=data.fk_idDokument) }}">Edit</a>
+                                    <a href="{{ url_for('library.deleteDocument', doc_id=data.fk_idDokument) }}">Delete</a>
                                 </div>
                             </div>
                             {% endfor %}
