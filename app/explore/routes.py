@@ -94,4 +94,3 @@ def index(doc_id=None,catalog_id=None):
     ).all()
 
     return render_template('explore/explore.html',tags=tags, searchResults=searchResults, catalogs=catalogs, categories=categories, activeDoc=activeDoc, commentData=commentData, metadata=metadata)
-

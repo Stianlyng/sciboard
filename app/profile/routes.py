@@ -10,9 +10,8 @@ from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagC
 from app.profile import bp
 from app.profile.forms import UploadThumbnailForm
 
-
-@bp.route('/settings', methods=['GET', 'POST'])
 @login_required
+@bp.route('/settings', methods=['GET', 'POST'])
 def settings():
     metadata = db.session.query(
         DocumentHasMetadata.title,
