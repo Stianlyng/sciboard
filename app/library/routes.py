@@ -1,10 +1,7 @@
-from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, render_template_string, redirect, url_for, make_response, session
+from flask import render_template,  request,render_template_string, redirect, url_for
 from flask_login import current_user, login_required
 from app import db
-from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagCategory, Access, DocumentType, User, \
-    Comment, Tags
+from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagCategory, Access, DocumentType, User, Comment, Tags
 from app.library import bp
 from app.library.forms import MetadataForm, CommentForm
 
@@ -14,9 +11,6 @@ from app.library.forms import MetadataForm, CommentForm
 def document(doc_id=None):
     if doc_id is None:
         pass
-
-    # Sets the active document
-    # session['active_document_id'] = doc_id
 
     # Metadata for document in preview
     metadata = db.session.query(
@@ -115,8 +109,6 @@ def editDocument(doc_id=None):
     ).filter(
         CatalogHasTagCategory.fk_idCatalog == catalogQuery[0].idCatalog
     ).all()
-
-    # choices = [(i.idTagCategory, i.categoryName) for i in CategoryQuery]
 
     if form.validate_on_submit():
 
