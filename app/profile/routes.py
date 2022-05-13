@@ -1,12 +1,9 @@
-from datetime import datetime
-from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, render_template_string, redirect, url_for, make_response
+from flask import render_template, redirect, url_for, make_response
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 from sqlalchemy import desc
 from app import db
-from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagCategory, Document, User, Thumbnail, \
-    Access, Tags, DocumentType
+from app.models import DocumentHasMetadata, Catalog, TagCategory, CatalogHasTagCategory, User, Thumbnail
 from app.profile import bp
 from app.profile.forms import UploadThumbnailForm
 

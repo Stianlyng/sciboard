@@ -1,6 +1,6 @@
-from flask import jsonify, request, url_for, abort, render_template_string, session, make_response,redirect
+from flask import request, url_for, render_template_string, session, make_response,redirect
 from app import db
-from app.models import User, DocumentHasMetadata, Document,Comment,Tags,DocumentHasTags
+from app.models import User, DocumentHasMetadata, Document,DocumentHasTags
 from app.api import bp
 from app.api.forms import UploadDocumentForm
 

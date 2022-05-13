@@ -1,6 +1,5 @@
-from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, render_template_string, redirect, url_for, make_response,session
-from flask_login import current_user, login_required
+from flask import render_template, request
+from flask_login import  login_required
 from app import db
 from app.models import DocumentHasMetadata,Catalog,TagCategory,CatalogHasTagCategory,User, Comment,Tags,Access,DocumentType
 from app.explore import bp

@@ -1,8 +1,6 @@
-
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileRequired
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField,StringField,TextAreaField,DateField, SelectField,SubmitField,HiddenField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo,optional,length
+from wtforms import StringField,TextAreaField,DateField, SelectField,SubmitField
+from wtforms.validators import DataRequired, optional,length
 
 
 class MetadataForm(FlaskForm):

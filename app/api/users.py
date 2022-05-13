@@ -1,9 +1,7 @@
-from flask import jsonify, request, url_for, abort,render_template_string
+from flask import render_template_string
 from app import db
-from app.models import User,Document,DocumentHasMetadata
+from app.models import User,DocumentHasMetadata
 from app.api import bp
-from app.api.auth import token_auth
-from app.api.errors import bad_request
 from sqlalchemy import func
 
 

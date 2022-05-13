@@ -1,8 +1,7 @@
 <div class="pb-8 space-y-1">
-    <!-- Current: "bg-gray-200 text-gray-900", Default: "text-gray-600 hover:bg-gray-50" -->
+
     <a href="{{ url_for('main.frontpage') }}" class="bg-gray-200 text-gray-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
        aria-current="page">
-        <!-- Heroicon name: outline/home -->
         <svg class="text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -11,7 +10,7 @@
         <span class="truncate"> Frontpage </span>
     </a>
 
-    <!-- Current: "bg-gray-200 text-gray-900", Default: "text-gray-600 hover:bg-gray-50" -->
+
     <a href="{{ url_for('explore.index') }}"
        class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
        aria-current="page">
@@ -24,7 +23,6 @@
 
     <a href="{{ url_for('main.popular') }}"
        class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
-        <!-- Heroicon name: outline/fire -->
         <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
              aria-hidden="true">
@@ -38,7 +36,7 @@
 
     <a href="{{ url_for('main.trending') }}"
        class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md">
-        <!-- Heroicon name: outline/trending-up -->
+
         <svg class="text-gray-400 group-hover:text-gray-500 flex-shrink-0 -ml-1 mr-3 h-6 w-6"
              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
              aria-hidden="true">
@@ -48,7 +46,7 @@
         <span class="truncate"> Trending </span>
     </a>
 
-    <!-- Current: "bg-gray-200 text-gray-900", Default: "text-gray-600 hover:bg-gray-50" -->
+
     <a href="{{ url_for('library.myDocuments', username=current_user.username) }}"
        class="text-gray-600 hover:bg-gray-50 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
        aria-current="page">

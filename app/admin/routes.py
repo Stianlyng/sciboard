@@ -1,5 +1,5 @@
-from flask import render_template, redirect, url_for, flash, request,current_app
-from flask_login import login_user, logout_user, current_user,login_required
+from flask import render_template, redirect, url_for,current_app
+from flask_login import current_user,login_required
 from app import db
 from app.admin import bp
 from app.models import User,Comment,DeletedComment, DocumentHasMetadata
