@@ -22,11 +22,19 @@
     <ul role="list" class="mb-8">
         {% if commentData |length %}
             {% for comment in commentData %}
+                {% if comment.fk_idComment is none %}
                 <li>
                     <div class="relative pb-8">
                         {% include 'library/components/comment-single.html' %}
                     </div>
                 </li>
+                {% else %}
+                    <li>
+                    <div class="relative pb-8 pl-10">
+                        {% include 'library/components/comment-reply.html' %}
+                    </div>
+                </li>
+                {% endif %}
             {% endfor %}
         {% else %}
             <p>No comments yet. Be the first to comment!</p>
