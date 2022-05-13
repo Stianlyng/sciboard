@@ -79,7 +79,7 @@
         <main class="pt-8 pb-16">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="px-4 sm:px-0">
-                    <h2 class="text-lg font-medium text-gray-900">{{ title }}</h2>
+                    <h2 class="text-lg font-medium text-gray-900">Comments Overview</h2>
 
                     <!-- Tabs -->
                     <div class="sm:hidden">
@@ -101,16 +101,11 @@
                                 <a href="{{ url_for('admin.comments') }}"
                                    class=" {{ 'border-purple-500 text-purple-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' if  activeTab == 'all-comments' else 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' }}">
                                     All comments
-
-                                    <!-- Current: "bg-purple-100 text-purple-600", Default: "bg-gray-100 text-gray-900" -->
-                                    <span class="bg-gray-100 text-gray-900 hidden ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block">2</span>
                                 </a>
 
                                 <a href="{{ url_for('admin.deletedComments') }}"
                                    class=" {{ 'border-purple-500 text-purple-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' if  activeTab == 'deleted-comments' else 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-200 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm' }}">
                                     Deleted Comments
-
-                                    <span class="bg-gray-100 text-gray-900 hidden ml-2 py-0.5 px-2.5 rounded-full text-xs font-medium md:inline-block">4</span>
                                 </a>
 
 

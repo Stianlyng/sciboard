@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, current_user
 from app import db
 from app.admin import bp
 from app.models import User,Comment,DeletedComment, DocumentHasMetadata
+from sqlalchemy import func
 
 @bp.route('/comments', methods=['GET', 'POST'])
 def comments():
@@ -21,8 +22,7 @@ def comments():
 
     return render_template('admin/all-comments.html',
                            metadata=metadata,
-                           title='All Comments',
-                           activeTab='all-comments'
+                           activeTab='all-comments',
                            )
 
 
@@ -42,8 +42,8 @@ def deletedComments():
 
     return render_template('admin/all-comments.html',
                            metadata=metadata,
-                           title='All Comments',
-                           activeTab='deleted-comments')
+                           activeTab='deleted-comments'
+                           )
 
 
 
