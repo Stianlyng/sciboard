@@ -4,81 +4,51 @@ from flask_login import current_user, login_required
 from app import db
 from app.models import DocumentHasMetadata,Catalog,TagCategory,CatalogHasTagCategory,User, Comment,Tags,Access,DocumentType
 from app.explore import bp
+from sqlalchemy.sql import or_
 
-
-@bp.route('/all/', methods=['GET', 'POST'])
-@bp.route('/all/<doc_id>', methods=['GET', 'POST'])
-@bp.route('catalog/<catalog_id>', methods=['GET', 'POST'])
 @login_required
-def index(doc_id=None,catalog_id=None):
-    if catalog_id is None:
-        searchResults = db.session.query(
-            DocumentHasMetadata.title,
-            DocumentHasMetadata.description,
-            DocumentHasMetadata.creationDate,
-            DocumentHasMetadata.fk_idDokument,
-            User.username,
-            User.first_name,
-            User.last_name
-        ).join(
-            User, User.id == DocumentHasMetadata.fk_idUser
-        ).all()
+@bp.route('/all/', methods=['GET', 'POST'])
+@bp.route('/all/<catalog_id>', methods=['GET', 'POST'])
+def index(catalog_id=None):
 
-    else:
-        searchResults = db.session.query(
-            DocumentHasMetadata.title,
-            DocumentHasMetadata.description,
-            DocumentHasMetadata.creationDate,
-            DocumentHasMetadata.fk_idDokument,
-            User.username,
-            User.first_name,
-            User.last_name
-        ).join(
-            User, User.id == DocumentHasMetadata.fk_idUser
-        ).join(
-            Catalog, Catalog.idCatalog == DocumentHasMetadata.fk_idCatalog
-        ).filter(
-            DocumentHasMetadata.fk_idCatalog == catalog_id
-        ).all()
+    searchWord = request.form.get('search', None)
 
-    if doc_id is None:
-        # Gets the id of the first document under the searchbar
-        activeDoc = searchResults[0].fk_idDokument
-    else:
-        activeDoc = doc_id
-    # Sets the active document
-    session['active_document_id'] = activeDoc
-
-    # Metadata for document in preview
-    metadata = db.session.query(
+    search = db.session.query(
         DocumentHasMetadata.title,
         DocumentHasMetadata.description,
-        DocumentHasMetadata.uploadDate,
         DocumentHasMetadata.creationDate,
-        DocumentHasMetadata.views,
-        DocumentHasMetadata.votes,
+        DocumentHasMetadata.fk_idDokument,
         User.username,
         User.first_name,
-        User.last_name,
-        User.id
+        User.last_name
     ).join(
         User, User.id == DocumentHasMetadata.fk_idUser
-    ).filter(
-        DocumentHasMetadata.fk_idDokument == activeDoc
-    ).first()
+    )
 
-    # Comments for the document in preview
-    commentData = db.session.query(
-        Comment.date,
-        Comment.comment,
-        User.first_name,
-        User.last_name,
-        User.id
-    ).join(
-        User, User.id == Comment.fk_idUser
-    ).filter(
-        Comment.fk_idDokument == activeDoc
-    ).all()
+    if searchWord is None and catalog_id is None:
+        searchResults = search.all()
+
+    if searchWord is not None:
+        searchResults = search.filter(or_(
+            DocumentHasMetadata.title.ilike(f'%{searchWord}%'), DocumentHasMetadata.creationDate.ilike(f'%{searchWord}%')
+        )).all()
+
+    if catalog_id is not None:
+        searchResults = db.session.query(
+            TagCategory,
+            DocumentHasMetadata.title,
+            DocumentHasMetadata.description,
+            DocumentHasMetadata.creationDate,
+            DocumentHasMetadata.fk_idDokument,
+        ).join(
+            CatalogHasTagCategory, TagCategory.idTagCategory ==  CatalogHasTagCategory.fk_idTagCategory
+        ).join(
+            Catalog, CatalogHasTagCategory.fk_idCatalog == Catalog.idCatalog
+        ).join(
+            DocumentHasMetadata, Catalog.idCatalog == DocumentHasMetadata.fk_idCatalog
+        ).filter(
+            TagCategory.idTagCategory == catalog_id
+        ).all()
 
     # Get all tags for the filter button
     tags = Tags.query.all()
@@ -93,4 +63,4 @@ def index(doc_id=None,catalog_id=None):
         TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory
     ).all()
 
-    return render_template('explore/explore.html',tags=tags, searchResults=searchResults, catalogs=catalogs, categories=categories, activeDoc=activeDoc, commentData=commentData, metadata=metadata)
+    return render_template('explore/explore.html',tags=tags, searchResults=searchResults, catalogs=catalogs, categories=categories)

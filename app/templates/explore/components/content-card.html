@@ -13,18 +13,15 @@
         </div>
         <div class="min-w-0 flex-1">
             <p class="text-sm font-medium text-gray-900">
-                <a href="{{ url_for('library.document', doc_id=result.fk_idDokument) }}" class="hover:underline">{{ result.title }}</a>
+                <a href="#" class="hover:underline">{{ result.title }}</a>
             </p>
             <p class="text-sm text-gray-500">
                 <a href="#" class="hover:underline">{{ moment(result.creationDate).fromNow() }}</a>
 
             </p>
-            <p class="opacity-50 text-sm pt-3 line-clamp-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illo impedit sapiente recusandae iusto officiis
-            dolor? Laborum quibusdam quam, quidem vel assumenda repellat inventore sint nesciunt, ullam asperiores
-            magnam placeat eveniet. Aliquam voluptatibus assumenda distinctio veniam quam tempora modi aperiam nemo
-            voluptate reprehenderit quidem, nisi vero est.</p>
+            <p class="opacity-50 text-sm pt-3 line-clamp-3">{{ result.description }}</p>
 
-            {% include 'components/comment-layout.html' %}
+
         </div>
 
 
