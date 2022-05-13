@@ -19,7 +19,11 @@ def comments():
         Comment, Comment.fk_idDokument == DocumentHasMetadata.fk_idDokument
     ).all()
 
-    return render_template('admin/all-comments.html', metadata=metadata)
+    return render_template('admin/all-comments.html',
+                           metadata=metadata,
+                           title='All Comments',
+                           activeTab='all-comments'
+                           )
 
 
 @bp.route('/deleted-comments', methods=['GET', 'POST'])
@@ -36,7 +40,12 @@ def deletedComments():
         DeletedComment, DeletedComment.fk_idDokument == DocumentHasMetadata.fk_idDokument
     ).all()
 
-    return render_template('admin/all-comments.html', metadata=metadata)
+    return render_template('admin/all-comments.html',
+                           metadata=metadata,
+                           title='All Comments',
+                           activeTab='deleted-comments')
+
+
 
 @bp.route('/delete-comment/<comment_id>', methods=['GET', 'POST'])
 def deleteComment(comment_id=None):
