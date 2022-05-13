@@ -58,6 +58,7 @@ def index(catalog_id=None):
 
     categories = db.session.query(
         TagCategory.categoryName,
+        TagCategory.idTagCategory,
         CatalogHasTagCategory.fk_idCatalog
     ).join(
         TagCategory, TagCategory.idTagCategory == CatalogHasTagCategory.fk_idTagCategory
