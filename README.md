@@ -1,8 +1,6 @@
 # Prosjektrapport SciBoard
 ## Innholdsfortegnelse
 - Praktisk informasjon
-	- Gruppenummer
-	- Gruppedeltakere
 	- URL Nettside
 	- Tilganger og innlogging
 		- ADMIN
@@ -27,18 +25,11 @@
 		- Andre Blueprints
 		- Statistiske filer og templates
 	- SQL
-- Prosjektdagbok
 - Egne vurderinger
 
 
 # Praktisk informasjon
-
-#### Gruppenummer
-- Canvas: Gruppe 3
-- Github: Prosjektgruppe 39
-#### Gruppedeltakere
 - Stian Lyng Stræte
-- Haakon Christopher Sandven
 #### URL Nettside
 - http://www.sciboard.onrender.com
 #### Tilganger og innlogging
@@ -51,7 +42,7 @@
 
 # Løsningsbeskrivelse
 
-Løsningen vi har laget er et Content Management System (CMS) for formidling av forskningsartikler. Ved hjelp av løsningen vi har laget kan forskeren laste opp forskningsdokumenter, for eksempel bacheloroppgaver, masteroppgaver, Phd-Bloppgaver eller annen forskning til vår database. Forskeren bestemmer om forskningsrapporten skal være tilgjengelig for alle, eller kun innloggede brukere.
+Løsningen er et Content Management System (CMS) for formidling av forskningsartikler. Ved hjelp av løsningen kan forskeren laste opp forskningsdokumenter, for eksempel bacheloroppgaver, masteroppgaver, Phd-oppgaver eller annen forskning til databasen. Forskeren bestemmer om forskningsrapporten skal være tilgjengelig for alle, eller kun innloggede brukere.
 
 Løsningen er videre tilgjengelig for alle som ønsker å besøke den. Man kan registrere seg som bruker. Dette åpner for at man får tilgang til flere forskningsrapporter, i tillegg til at man kan laste opp sine egne. Brukere kan legge igjen kommentarer til en forskningsrapport.
 
@@ -97,7 +88,7 @@ Databasen er normalisert i henhold til BCNF.
 
 ## Teknologivalg
 
-Det ble bruk flere packages under utviklingen, men vi velger å legge spesielt fokus på de som er nevnt i dette delkapitlet.
+Det ble bruk flere packages under utviklingen, men legger spesielt fokus på de som er nevnt i dette delkapitlet.
 
 ### Flask
 
@@ -110,7 +101,7 @@ Flask er avhengig av Jinja template engine, og Wekzeug WSGI toolkit. Førstnevnt
 Som nevnt er Flask et mikro-rammeverk. Dette betyr at man ikke får en ORM med i Flask. Selv om selve ORM delen av SQLAlchemy ikke ble brukt i denne oppgaven er planen å implementere dette senere. 
 
 
-Siden vi jobbet på hver vår kant og hadde planer om å fortsette med applikasjonen, var sømløshet mot andre teknologier og databaser viktig. Her gir SQLAlchemy oss noen viktige fordeler:
+Siden jeg hadde planer om å fortsette med applikasjonen, var sømløshet mot andre teknologier og databaser viktig. Her gir SQLAlchemy oss noen viktige fordeler:
 
 -   Lar oss definere database modellene i applkasjonskoden
 	```python
@@ -149,12 +140,10 @@ Siden vi jobbet på hver vår kant og hadde planer om å fortsette med applikasj
 	catalogs = Catalog.query.all()
 	```
     
--   Støtter flere databaser samtidig. Vi bruker SQlite i utviklingen og MariaDB via Google Cloud i produksjon. Dette ga oss muligheten til å teste kode og nye oppsett mye raskere. 
+-   Støtter flere databaser samtidig. Det brukes brukes SQlite i utviklingen og MariaDB via Google Cloud i produksjon. Dette ga oss muligheten til å teste kode og nye oppsett mye raskere. 
     
 -   Har sikkerhet i fokus, med flere løsninger som hindrer de kjente sårbarhetene man ellers møter ved bruk av databaser
     
-
-  
 
 ### Flask-WTF
 
@@ -162,7 +151,7 @@ Flask-WTF er en versjon av WTforms som er laget med fokus på integrasjon med Fl
 
 ### Flask-Mail
 
-Vi brukte Flask-mail for å konfigurere SMTP med applikasjonen. Som SMTP Tjener brukte vi gmail. 
+Jeg brukte Flask-mail for å konfigurere SMTP med applikasjonen. Som SMTP Tjener brukte vi gmail. 
 
 
 ```python
@@ -170,13 +159,13 @@ MAIL_SERVER = 'smtp.gmail.com'
 MAIL_PORT = 587  
 MAIL_USE_TLS = 1  
 MAIL_USERNAME = 'sciboard.org@gmail.com'  
-MAIL_PASSWORD = 'Activate Commend7 Slip'  
+MAIL_PASSWORD = 'SECRET'  
 ADMINS = ['sciboard.org@gmail.com']
 ```
 
 ### PyJWT
 
-Prosjektbeskrivelsen etterlyste e-postvalidering ved opprettelse av ny bruker. Vi valgte å gå for en token løsning, der logikken i backend verifiserer gyldigheten ved input tilbake til applikasjonen. 
+Prosjektbeskrivelsen etterlyste e-postvalidering ved opprettelse av ny bruker. Jeg valgte å gå for en token løsning, der logikken i backend verifiserer gyldigheten ved input tilbake til applikasjonen. 
 
   
 
@@ -214,27 +203,27 @@ Dersom datetime objektet ikke er større en datetime.now() vil funksjonen return
 
 ### Tailwind CSS
 
-For styling begynte vi med Bootstrap, men gikk fort over til Tailwind da dette ga et større handlingsrom til å modifisere etter behov. Tailwind er på mange måter relativt likt Bootstrap, men har et større spekter av klasser og har også en god løsning for minimering av CSS script.
+For styling begynte jeg med Bootstrap, men gikk fort over til Tailwind da dette ga et større handlingsrom til å modifisere etter behov. Tailwind er på mange måter relativt likt Bootstrap, men har et større spekter av klasser og har også en god løsning for minimering av CSS script.
 
 ### Alpine JS
 
-Det kan fort bli et stort behov for javascript i dagens web applikasjoner. Selv om javascript gir store muligheter for modifisering gir det også store muligheter for sårbarheter, tregere side og bugs. Vi valgte å gå for Alpine JS, fordi at det gir et lettvektig rammeverk for å lage inline logikk i HTML-koden. I tillegg til at Alpine er veldig lettvektig (21.9kB) er det også enkelt å bruke opp mot Tailwind CSS
+Det kan fort bli et stort behov for javascript i dagens web applikasjoner. Selv om javascript gir store muligheter for modifisering gir det også store muligheter for sårbarheter, tregere side og bugs. Jeg valgte å gå for Alpine JS, fordi at det gir et lettvektig rammeverk for å lage inline logikk i HTML-koden. I tillegg til at Alpine er veldig lettvektig (21.9kB) er det også enkelt å bruke opp mot Tailwind CSS
 
 ### HTMX 
 
-HTMX ga oss tilgang til AJAX, CSS Transitions, WebSockets og server sendte events direkte i HTML koden ved bruk av attributes. I HTML sin spede begynnelse var dette standarden, men ble etterhvert byttet ut med JavaScript og sendingen av events ble gjort i JSON. HTMX er laget av skaperen til Typescript, og har fått mye oppmerksomhet av webutviklere etter det ble lansert for et års tid siden. Vi vil forklare bruken av htmx i større detalj i API delen senere.
+HTMX ga oss tilgang til AJAX, CSS Transitions, WebSockets og server sendte events direkte i HTML koden ved bruk av attributes. I HTML sin spede begynnelse var dette standarden, men ble etterhvert byttet ut med JavaScript og sendingen av events ble gjort i JSON. HTMX er laget av skaperen til Typescript, og har fått mye oppmerksomhet av webutviklere etter det ble lansert for et års tid siden. Jeg vil forklare bruken av htmx i større detalj i API delen senere.
 
   
 
 ## Blueprints
 
-Som følge av applikasjonenes muligheter for skalering og utvidelser bestemte vi oss tidlig for å tilrettelegge for en modulbasert tilnærming. Et annet viktig element i startfasen av prosjektet var at vi skulle legge til rette for å møte oppgavens krav fra starten av, og heller utvide funksjonaliteten dersom det ble tid til det. Ved å bruke blueprint fikk vi møtt mange av disse forutsetningene. 
+Som følge av applikasjonenes muligheter for skalering og utvidelser bestemte jeg meg tidlig for å tilrettelegge for en modulbasert tilnærming. Et annet viktig element i startfasen av prosjektet var at jeg skulle legge til rette for å møte oppgavens krav fra starten av, og heller utvide funksjonaliteten dersom det ble tid til det. Ved å bruke blueprint fikk jeg møtt mange av disse forutsetningene. 
 
   
 
 Blueprints ble nyttige for oss i disse tilfellene:
 
--   Vi fikk separert kodebasen, 
+-   Fikk separert kodebasen, 
     
 -   Mindre kompleksitet
     
@@ -247,7 +236,7 @@ Blueprints ble nyttige for oss i disse tilfellene:
 
 ### API
 
-Som nevnt tidligere valgte vi å gå for HTMX for å utføre klient/server HTTP requests på siden. I den sammenheng at vi ønsket å minimere kompleksiteten, og skape en dynamisk side der brukeren selv kan styre applikasjonens handlinger, var det nødvendig med en oversiktlig måte å kjøre API-calls til serveren. # SJEKK TERMINOLOGI HER
+Som nevnt tidligere valgte jeg å gå for HTMX for å utføre klient/server HTTP requests på siden. I den sammenheng at jeg ønsket å minimere kompleksiteten, og skape en dynamisk side der brukeren selv kan styre applikasjonens handlinger, var det nødvendig med en oversiktlig måte å kjøre API-calls til serveren. # SJEKK TERMINOLOGI HER
 
   
 
@@ -319,12 +308,12 @@ Alle disse mappene følger lik struktur, med et __init__.py script som initierer
 
 ## Statistiske filer og templates
 
-Disse mappene har vi valg å legge utenom blueprints da vi ikke så behovet for å å ulike stylesheets eller templates på de forskjellige modulene. Om vi derimot skulle utvide med en blogg eller lignende, kan man enkelt lage en egen statisk, eller templates mappe ved i å legge den inn i  blueprint statement i create_app (application factory) i main skriptet. 
+Disse mappene har jeg valg å legge utenom blueprints da jeg ikke så behovet for å å ulike stylesheets eller templates på de forskjellige modulene. Om jeg derimot skulle utvide med en blogg eller lignende, kan man enkelt lage en egen statisk, eller templates mappe ved i å legge den inn i  blueprint statement i create_app (application factory) i main skriptet. 
 
   
 
 # SQL
-Som nevnt brukte vi SQLAlchemy sin funksjonalitet for å generere tabeller, vi har uansett valgt å legge ved en forward enigineeret versjon slik at man kan lese dette i raw SQL. 
+Som nevnt brukte jeg SQLAlchemy sin funksjonalitet for å generere tabeller, jeg har uansett valgt å legge ved en forward enigineeret versjon slik at man kan lese dette i raw SQL. 
 
 Modellen for generering av scriptet finner man i kildekoden, med navnet models.py
 
@@ -637,40 +626,14 @@ CREATE UNIQUE INDEX ix_User_email ON User ( email );
 CREATE UNIQUE INDEX ix_User_username ON User ( username );
 ```
 
-  
-  
-
-# Prosjektdagbok
-
-Tabellen under viser arbeidsfordelingen på prosjektdeltakerne
-
-| Oppgave                                       | Prosjektdeltager | Tidsbruk |
-|-----------------------------------------------|------------------|----------|
-| Designe database                              | Haakon           | 3 timer  |
-| Lage testdata                                 | Haakon           | 3 timer  |
-| Lage spørringer                               | Haakon           | 4 timer  |
-| Oppsett av Flask                              | Stian            | 4 timer  |
-| Oppsett i github                              | Stian            | 2 timer  |
-| Lagt inn bootstrap                            | Haakon           | 1 time   |
-| Testing av teknologi                          | Felles           | 5 timer  |
-| Implementering av DB                          | Haakon           | 8 timer  |
-| Lage templates og få ut alle sider            | Stian            | 10 timer |
-| Flytte av repo over på riktig (datateknikk)   | Haakon           | 5 timer  |
-| Endring over til SQLAlchemy                   | Stian            | 5 timer  |
-| Diverse utvikling                             | Felles           | 30 timer |
-| Endring fra Bootstrap til Tailwind (Redesign) | Stian            | 10 timer |
-| Siste finpuss                                 | Felles           | 15 timer |
-| Deployment                                    | Stian            | 5 timer  |
-  
+ 
 
 # Egne vurderinger
 
-Det har vært en meget lærerik prosess å jobbe med denne løsningen, og funksjonalitet har gradvis blitt utvidet etterhvert som vi ble modnet inn i de tekniske mulighetene som finnes gjennom blant annet Flask. Vi har lagt til grunn en iterativ og agil utviklingsprosess, der vi har testet løsningen jevnlig for å se om vi skal fortsette i det samme eller i et nytt spor. Den endelige løsningen har dermed blitt relativt annerledes enn de initielle idèene vi startet med. 
-
-  
+Det har vært en meget lærerik prosess å jobbe med denne løsningen, og funksjonalitet har gradvis blitt utvidet etterhvert som jeg ble modnet inn i de tekniske mulighetene som finnes gjennom blant annet Flask. Jeg har lagt til grunn en iterativ og agil utviklingsprosess, der vi har testet løsningen jevnlig for å se om jeg skal fortsette i det samme eller i et nytt spor. Den endelige løsningen har dermed blitt relativt annerledes enn de initielle idèene som jeg startet med. 
 
 Løsningen er utarbeidet med tanke på skalerbarhet. Den kan enkelt utvides både med tanke på ny funksjonalitet og i forhold til nye tabeller og data. Eksempelvis kan den lett utvides med nye katalogkategorier, tags-kategorier og tags. Det kan også enkelt legges til nye brukergrupper som for eksempel moderatorer.
 
   
 
-Slik arkitekturen og teknologien er utviklet kan løsningen også enkelt utvides med ny funksjonalitet. Noen tanker rundt dette kobling mot sosiale medier som Facebook, LinkedIn og Twitter der man kan dele rapporten på sosiale medier. Andre ting kan være mulighet til å invitere venner. Vi tenker også at løsningen enkelt kan være en “whitelabel”-løsning, der plattformen benyttes av for eksempel universiteter eller høyskoler - eller i helt andre bransjer eller bruksområder.
+Slik arkitekturen og teknologien er utviklet kan løsningen også enkelt utvides med ny funksjonalitet. Noen tanker rundt dette kobling mot sosiale medier som Facebook, LinkedIn og Twitter der man kan dele rapporten på sosiale medier. Andre ting kan være mulighet til å invitere venner. Løsningen enkelt kan være en “whitelabel”-løsning, der plattformen benyttes av for eksempel universiteter eller høyskoler - eller i helt andre bransjer eller bruksområder.
